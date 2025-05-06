@@ -8,8 +8,11 @@ The app uses a Logistic Regression model trained on the sonar dataset, which con
 # Features
 
 **Data Exploration:** Visualize the dataset, including class distribution and feature patterns
+
 **Model Performance:** Evaluate the model's performance with metrics and visualizations
+
 **Make Prediction:** Input your own sonar readings to classify objects as rocks or mines
+
 **Interactive UI:** User-friendly interface with visualizations and easy navigation
 
 # Installation
