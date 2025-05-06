@@ -1,3 +1,6 @@
+# Live Demo in form of web app:
+https://sonar-rock-vs-mine-classification-fwjkxctn7bxj9xsecwxicn.streamlit.app/
+
 # Sonar-Rock-vs-Mine-Classification
 
 This Streamlit application uses machine learning to classify sonar signals as either rocks or mines based on their frequency patterns.
