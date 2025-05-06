@@ -1,3 +1,7 @@
+![image](https://github.com/user-attachments/assets/26351840-f1d1-4d0c-8ebe-a11653c99523)
+
+
+
 # Live Demo in form of web app:
 https://sonar-rock-vs-mine-classification-fwjkxctn7bxj9xsecwxicn.streamlit.app/
 
