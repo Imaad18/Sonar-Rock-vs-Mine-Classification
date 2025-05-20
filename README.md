@@ -10,6 +10,7 @@ https://sonar-rock-vs-mine-classification-fwjkxctn7bxj9xsecwxicn.streamlit.app/
 This Streamlit application uses machine learning to classify sonar signals as either rocks or mines based on their frequency patterns.
 
 # Overview
+
 The app uses a Logistic Regression model trained on the sonar dataset, which contains patterns obtained by bouncing sonar signals off metal cylinders (mines) and rocks under various conditions.
 
 # Features
@@ -24,13 +25,13 @@ The app uses a Logistic Regression model trained on the sonar dataset, which con
 
 # Installation
 
-1.Clone this repository
+1. Clone this repository
 
-2.Install the required packages:
+2. Install the required packages:
 
 pip install -r requirements.txt
 
-3.Download the sonar dataset (sonar data.csv) and place it in the same directory as the app
+3. Download the sonar dataset (sonar data.csv) and place it in the same directory as the app
 
 # Usage
 
@@ -61,19 +62,20 @@ Matplotlib
 Seaborn
 
 # Deployment
-You can deploy this app on Streamlit Cloud by following these steps:
 
-Push your code to a GitHub repository
+* You can deploy this app on Streamlit Cloud by following these steps:
 
-Go to Streamlit Cloud
+* Push your code to a GitHub repository
 
-Connect your GitHub account
+* Go to Streamlit Cloud
 
-Select the repository and branch
+* Connect your GitHub account
 
-Set the main file path to sonar_classification_app.py
+* Select the repository and branch
 
-Deploy!
+* Set the main file path to sonar_classification_app.py
+
+* Deploy!
 
 # About the Dataset
 The dataset consists of 208 patterns obtained by bouncing sonar signals off a metal cylinder (mine) and rocks under various conditions. Each pattern is a set of 60 numbers in the range 0.0 to 1.0, representing the energy within particular frequency bands integrated over time.
