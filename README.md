@@ -40,31 +40,33 @@ pip install -r requirements.txt
 
 # Usage
 
-1.Run the Streamlit app:
+1. Run the Streamlit app:
 
+```bash
 streamlit run sonar_app.py
+```
 
-2.Open your web browser and go to the URL displayed in the terminal (usually http://localhost:8501)
+2. Open your web browser and go to the URL displayed in the terminal (usually http://localhost:8501)
 
-Upload the sonar dataset or use the preloaded data
+3. Upload the sonar dataset or use the preloaded data
 
-Explore the data, check model performance, and make predictions
+4. Explore the data, check model performance, and make predictions
 
 # Requirements
 
-Python 3.7+
+* Python 3.7+
 
-Streamlit
+* Streamlit
 
-Pandas
+* Pandas
 
-NumPy
+* NumPy
 
-Scikit-learn
+* Scikit-learn
 
-Matplotlib
+* Matplotlib
 
-Seaborn
+* Seaborn
 
 # Deployment
 
