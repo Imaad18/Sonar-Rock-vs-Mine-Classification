@@ -32,7 +32,9 @@ https://github.com/Imaad18/Sonar-Rock-vs-Mine-Classification.git
 
 3. Install the required packages:
 
+```bash
 pip install -r requirements.txt
+```
 
 3. Download the sonar dataset (sonar data.csv) and place it in the same directory as the app
 
