@@ -26,8 +26,11 @@ The app uses a Logistic Regression model trained on the sonar dataset, which con
 # Installation
 
 1. Clone this repository
+```bash
+https://github.com/Imaad18/Sonar-Rock-vs-Mine-Classification.git
+```
 
-2. Install the required packages:
+3. Install the required packages:
 
 pip install -r requirements.txt
 
