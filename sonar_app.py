@@ -8,6 +8,111 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Custom CSS styling
+st.markdown("""
+<style>
+    /* Main page styling */
+    .main {
+        background-color: #f8f9fa;
+    }
+    
+    /* Title styling */
+    .title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Header styling */
+    h1, h2, h3 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.3rem;
+    }
+    
+    /* Sidebar styling */
+    .sidebar .sidebar-content {
+        background-color: #2c3e50;
+        color: white;
+    }
+    
+    .sidebar .sidebar-content .sidebar-title {
+        color: white;
+        font-weight: 700;
+    }
+    
+    /* Button styling */
+    .stButton>button {
+        background-color: #3498db;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton>button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Slider styling */
+    .stSlider .thumb {
+        background-color: #3498db !important;
+    }
+    
+    .stSlider .track {
+        background-color: #bdc3c7 !important;
+    }
+    
+    /* Dataframe styling */
+    .dataframe {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Card styling for prediction results */
+    .prediction-card {
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+    }
+    
+    .mine-card {
+        background-color: #f8d7da;
+        border-left: 5px solid #dc3545;
+    }
+    
+    .rock-card {
+        background-color: #d4edda;
+        border-left: 5px solid #28a745;
+    }
+    
+    /* Progress bar styling */
+    .stProgress>div>div>div {
+        background-color: #3498db;
+    }
+    
+    /* Radio button styling */
+    .stRadio>div>label {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+    
+    /* Footer styling */
+    .footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Set page configuration
 st.set_page_config(
     page_title="Sonar Rock vs Mine Classifier",
@@ -15,335 +120,13 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS for modern styling
-st.markdown("""
-<style>
-    /* Import modern fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    /* Root variables for theming */
-    :root {
-        --primary-color: #6366f1;
-        --secondary-color: #8b5cf6;
-        --accent-color: #06b6d4;
-        --success-color: #10b981;
-        --warning-color: #f59e0b;
-        --error-color: #ef4444;
-        --text-primary: #1f2937;
-        --text-secondary: #6b7280;
-        --bg-primary: #ffffff;
-        --bg-secondary: #f8fafc;
-        --bg-tertiary: #e2e8f0;
-        --border-color: #e5e7eb;
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --radius-sm: 0.375rem;
-        --radius-md: 0.5rem;
-        --radius-lg: 0.75rem;
-        --radius-xl: 1rem;
-    }
-    
-    /* Global styles */
-    .stApp {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-    }
-    
-    /* Main container */
-    .main .block-container {
-        padding: 2rem 1rem;
-        max-width: 1200px;
-        background: var(--bg-primary);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-lg);
-        margin: 2rem auto;
-        border: 1px solid var(--border-color);
-    }
-    
-    /* Title styling */
-    h1 {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 700;
-        font-size: 2.5rem;
-        text-align: center;
-        margin-bottom: 1rem;
-        letter-spacing: -0.02em;
-    }
-    
-    /* Headers */
-    h2, h3 {
-        color: var(--text-primary);
-        font-weight: 600;
-        margin-bottom: 1rem;
-        letter-spacing: -0.01em;
-    }
-    
-    h2 {
-        font-size: 1.875rem;
-        border-bottom: 2px solid var(--primary-color);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    h3 {
-        font-size: 1.25rem;
-        color: var(--secondary-color);
-    }
-    
-    /* Sidebar styling */
-    .css-1d391kg {
-        background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-        border-right: 1px solid var(--border-color);
-        box-shadow: var(--shadow-md);
-    }
-    
-    .css-1d391kg .stRadio > label {
-        font-weight: 500;
-        color: var(--text-primary);
-    }
-    
-    /* Radio buttons */
-    .stRadio > div {
-        background: var(--bg-secondary);
-        padding: 1rem;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--border-color);
-        margin-bottom: 0.5rem;
-        transition: all 0.2s ease;
-    }
-    
-    .stRadio > div:hover {
-        background: var(--bg-primary);
-        box-shadow: var(--shadow-sm);
-        transform: translateY(-1px);
-    }
-    
-    /* Buttons */
-    .stButton > button {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        color: white;
-        border: none;
-        border-radius: var(--radius-md);
-        padding: 0.75rem 2rem;
-        font-weight: 500;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow-md);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
-        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-    }
-    
-    .stButton > button:active {
-        transform: translateY(0);
-    }
-    
-    /* File uploader */
-    .stFileUploader {
-        background: var(--bg-secondary);
-        border: 2px dashed var(--primary-color);
-        border-radius: var(--radius-lg);
-        padding: 2rem;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-    
-    .stFileUploader:hover {
-        background: var(--bg-primary);
-        border-color: var(--secondary-color);
-        transform: scale(1.02);
-    }
-    
-    /* Metrics and info boxes */
-    .stMetric {
-        background: var(--bg-secondary);
-        border-radius: var(--radius-md);
-        padding: 1rem;
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-sm);
-    }
-    
-    /* Progress bars */
-    .stProgress > div > div > div {
-        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-        border-radius: var(--radius-sm);
-    }
-    
-    /* Sliders */
-    .stSlider > div > div > div {
-        background: var(--bg-secondary);
-        border-radius: var(--radius-md);
-        padding: 0.5rem;
-    }
-    
-    .stSlider > div > div > div > div {
-        color: var(--primary-color);
-    }
-    
-    /* DataFrames */
-    .stDataFrame {
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-md);
-        overflow: hidden;
-        border: 1px solid var(--border-color);
-    }
-    
-    /* Success/Warning/Error messages */
-    .stSuccess {
-        background: linear-gradient(135deg, var(--success-color), #34d399);
-        color: white;
-        border-radius: var(--radius-md);
-        padding: 1rem;
-        border: none;
-        box-shadow: var(--shadow-md);
-    }
-    
-    .stWarning {
-        background: linear-gradient(135deg, var(--warning-color), #fbbf24);
-        color: white;
-        border-radius: var(--radius-md);
-        padding: 1rem;
-        border: none;
-        box-shadow: var(--shadow-md);
-    }
-    
-    .stError {
-        background: linear-gradient(135deg, var(--error-color), #f87171);
-        color: white;
-        border-radius: var(--radius-md);
-        padding: 1rem;
-        border: none;
-        box-shadow: var(--shadow-md);
-    }
-    
-    /* Custom cards */
-    .prediction-card {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 2rem;
-        border-radius: var(--radius-xl);
-        text-align: center;
-        box-shadow: var(--shadow-lg);
-        margin: 1rem 0;
-        transition: all 0.3s ease;
-    }
-    
-    .prediction-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    
-    .metric-card {
-        background: var(--bg-primary);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
-        padding: 1.5rem;
-        box-shadow: var(--shadow-md);
-        transition: all 0.3s ease;
-        margin: 1rem 0;
-    }
-    
-    .metric-card:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--primary-color);
-    }
-    
-    /* Columns */
-    .stColumns {
-        gap: 2rem;
-    }
-    
-    /* Text areas and inputs */
-    .stTextInput > div > div > input,
-    .stTextArea > div > div > textarea {
-        border-radius: var(--radius-md);
-        border: 2px solid var(--border-color);
-        transition: all 0.3s ease;
-    }
-    
-    .stTextInput > div > div > input:focus,
-    .stTextArea > div > div > textarea:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-    }
-    
-    /* Matplotlib figure styling */
-    .stPlotlyChart {
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-md);
-        background: var(--bg-primary);
-        padding: 1rem;
-        border: 1px solid var(--border-color);
-    }
-    
-    /* Custom animations */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .animate-fade-in {
-        animation: fadeInUp 0.6s ease-out;
-    }
-    
-    /* Responsive design */
-    @media (max-width: 768px) {
-        .main .block-container {
-            padding: 1rem 0.5rem;
-            margin: 1rem;
-        }
-        
-        h1 {
-            font-size: 2rem;
-        }
-        
-        .stColumns {
-            gap: 1rem;
-        }
-    }
-    
-    /* Footer styling */
-    .footer {
-        background: var(--bg-secondary);
-        border-top: 1px solid var(--border-color);
-        padding: 2rem;
-        text-align: center;
-        margin-top: 3rem;
-        border-radius: var(--radius-lg);
-        color: var(--text-secondary);
-    }
-    
-    /* Hide Streamlit branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
-
 # Title and description
-st.title("Sonar Rock vs Mine Classification")
+st.markdown('<h1 class="title">Sonar Rock vs Mine Classification</h1>', unsafe_allow_html=True)
 st.markdown("""
-<div class="animate-fade-in">
-This app uses machine learning to classify sonar signals as either a rock (R) or a mine (M).
-The model is trained on the sonar dataset which contains patterns obtained by bouncing sonar signals
-off either rocks or metal cylinders (mines) at various angles and conditions.
+<div style="background-color: #e9f7fe; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+    This app uses machine learning to classify sonar signals as either a rock (R) or a mine (M).
+    The model is trained on the sonar dataset which contains patterns obtained by bouncing sonar signals
+    off either rocks or metal cylinders (mines) at various angles and conditions.
 </div>
 """, unsafe_allow_html=True)
 
@@ -397,8 +180,13 @@ def predict_input(model, scaler, input_data):
     return label, probability
 
 # Sidebar for navigation
-st.sidebar.title("Navigation")
+st.sidebar.markdown('<div class="sidebar-title">Navigation</div>', unsafe_allow_html=True)
 page = st.sidebar.radio("Go to", ["Home", "Data Exploration", "Model Performance", "Make Prediction"])
+
+# File uploader
+st.sidebar.markdown("---")
+st.sidebar.markdown('<div class="sidebar-title">Data Upload</div>', unsafe_allow_html=True)
+uploaded_file = st.sidebar.file_uploader("Upload sonar data CSV file", type=["csv"], label_visibility="collapsed")
 
 # Initialize session state to store model and data
 if 'model' not in st.session_state:
@@ -411,9 +199,6 @@ if 'X' not in st.session_state:
     st.session_state.X = None
 if 'y' not in st.session_state:
     st.session_state.y = None
-
-# File uploader
-uploaded_file = st.sidebar.file_uploader("Upload sonar data CSV file", type=["csv"])
 
 # Load and train the model
 if uploaded_file is not None:
@@ -458,25 +243,32 @@ else:
 if page == "Home":
     st.header("Rock vs Mine Classification using Sonar Data")
     
-    st.write("""
-    ### How it works
-    This application uses a Logistic Regression model to classify sonar signals as either rocks or mines.
-    
-    ### The Data
-    The dataset consists of 208 patterns obtained by bouncing sonar signals off a metal cylinder (mine) 
-    and rocks under various conditions. Each pattern is a set of 60 numbers in the range 0.0 to 1.0.
-    Each number represents the energy within a particular frequency band, integrated over a certain period of time.
-    
-    ### Instructions
-    1. Upload the sonar data CSV file using the sidebar
-    2. Explore the data in the "Data Exploration" section
-    3. Check model performance in the "Model Performance" section
-    4. Make predictions with your own inputs in the "Make Prediction" section
-    """)
+    st.markdown("""
+    <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+        <h3>How it works</h3>
+        <p>This application uses a Logistic Regression model to classify sonar signals as either rocks or mines.</p>
+        
+        <h3>The Data</h3>
+        <p>The dataset consists of 208 patterns obtained by bouncing sonar signals off a metal cylinder (mine) 
+        and rocks under various conditions. Each pattern is a set of 60 numbers in the range 0.0 to 1.0.
+        Each number represents the energy within a particular frequency band, integrated over a certain period of time.</p>
+        
+        <h3>Instructions</h3>
+        <ol>
+            <li>Upload the sonar data CSV file using the sidebar</li>
+            <li>Explore the data in the "Data Exploration" section</li>
+            <li>Check model performance in the "Model Performance" section</li>
+            <li>Make predictions with your own inputs in the "Make Prediction" section</li>
+        </ol>
+    </div>
+    """, unsafe_allow_html=True)
     
     if st.session_state.data is not None:
         st.write("### Sample Data")
-        st.dataframe(st.session_state.data.head())
+        st.dataframe(st.session_state.data.head().style.set_properties(**{
+            'background-color': '#f8f9fa',
+            'border': '1px solid #dee2e6'
+        }))
     
 # Data Exploration page
 elif page == "Data Exploration":
@@ -495,12 +287,16 @@ elif page == "Data Exploration":
         buffer.append(f"Number of Mines (M): {label_counts.get('M', 0)}")
         buffer.append(f"Number of Rocks (R): {label_counts.get('R', 0)}")
         
-        st.write("\n".join(buffer))
+        st.markdown(f"""
+        <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            {"<br>".join(buffer)}
+        </div>
+        """, unsafe_allow_html=True)
         
         # Display class distribution
         st.subheader("Class Distribution")
-        fig, ax = plt.figure(figsize=(6, 4)), plt.subplot(111)
-        sns.countplot(x=st.session_state.data[60], ax=ax)
+        fig, ax = plt.subplots(figsize=(6, 4))
+        sns.countplot(x=st.session_state.data[60], ax=ax, palette=["#3498db", "#2ecc71"])
         plt.title("Distribution of Rocks and Mines")
         plt.xlabel("Class")
         plt.ylabel("Count")
@@ -513,7 +309,7 @@ elif page == "Data Exploration":
         mines = st.session_state.data[st.session_state.data[60] == "M"].drop(60, axis=1).mean()
         rocks = st.session_state.data[st.session_state.data[60] == "R"].drop(60, axis=1).mean()
         
-        fig, ax = plt.figure(figsize=(12, 6)), plt.subplot(111)
+        fig, ax = plt.subplots(figsize=(12, 6))
         plt.plot(mines.index, mines.values, 'r-', label='Mine')
         plt.plot(rocks.index, rocks.values, 'b-', label='Rock')
         plt.title("Average Feature Values by Class")
@@ -528,7 +324,7 @@ elif page == "Data Exploration":
         # Select a subset of features to display in the heatmap (to avoid overcrowding)
         corr_features = st.session_state.X.iloc[:, :10]  # First 10 features
         
-        fig, ax = plt.figure(figsize=(10, 8)), plt.subplot(111)
+        fig, ax = plt.subplots(figsize=(10, 8))
         sns.heatmap(corr_features.corr(), cmap="viridis", annot=False, ax=ax)
         plt.title("Correlation Heatmap of First 10 Features")
         st.pyplot(fig)
@@ -556,11 +352,15 @@ elif page == "Model Performance":
         
         with col1:
             st.subheader("Training Results")
-            st.write(f"Accuracy: {train_accuracy:.4f}")
+            st.markdown(f"""
+            <div style="background-color: #e9f7fe; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4>Accuracy: {train_accuracy:.4f}</h4>
+            </div>
+            """, unsafe_allow_html=True)
             
             # Display confusion matrix
             st.write("Confusion Matrix:")
-            fig, ax = plt.figure(figsize=(8, 6)), plt.subplot(111)
+            fig, ax = plt.subplots(figsize=(8, 6))
             sns.heatmap(train_conf_matrix, annot=True, fmt='d', cmap='Blues', 
                        xticklabels=['Rock', 'Mine'], yticklabels=['Rock', 'Mine'], ax=ax)
             plt.xlabel('Predicted Label')
@@ -576,15 +376,19 @@ elif page == "Model Performance":
                 'recall': '{:.2f}', 
                 'f1-score': '{:.2f}', 
                 'support': '{:.0f}'
-            }))
+            }).set_properties(**{'background-color': '#f8f9fa', 'border': '1px solid #dee2e6'}))
         
         with col2:
             st.subheader("Testing Results")
-            st.write(f"Accuracy: {test_accuracy:.4f}")
+            st.markdown(f"""
+            <div style="background-color: #e9f7fe; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4>Accuracy: {test_accuracy:.4f}</h4>
+            </div>
+            """, unsafe_allow_html=True)
             
             # Display confusion matrix
             st.write("Confusion Matrix:")
-            fig, ax = plt.figure(figsize=(8, 6)), plt.subplot(111)
+            fig, ax = plt.subplots(figsize=(8, 6))
             sns.heatmap(test_conf_matrix, annot=True, fmt='d', cmap='Blues', 
                        xticklabels=['Rock', 'Mine'], yticklabels=['Rock', 'Mine'], ax=ax)
             plt.xlabel('Predicted Label')
@@ -600,17 +404,18 @@ elif page == "Model Performance":
                 'recall': '{:.2f}', 
                 'f1-score': '{:.2f}', 
                 'support': '{:.0f}'
-            }))
+            }).set_properties(**{'background-color': '#f8f9fa', 'border': '1px solid #dee2e6'}))
         
         # Feature importance
         st.subheader("Feature Importance")
         feature_importance = pd.DataFrame({
-            'Feature': [f'Feature {i}' for i in range(len(st.session_state.model.coef_[0]))],
+            'Feature': [f'Feature {i+1}' for i in range(len(st.session_state.model.coef_[0]))],
             'Importance': np.abs(st.session_state.model.coef_[0])
         }).sort_values('Importance', ascending=False)
         
-        fig, ax = plt.figure(figsize=(12, 8)), plt.subplot(111)
-        sns.barplot(x='Importance', y='Feature', data=feature_importance.head(15), ax=ax)
+        fig, ax = plt.subplots(figsize=(12, 8))
+        sns.barplot(x='Importance', y='Feature', data=feature_importance.head(15), 
+                   palette='viridis', ax=ax)
         plt.title('Top 15 Most Important Features')
         plt.tight_layout()
         st.pyplot(fig)
@@ -623,16 +428,18 @@ elif page == "Make Prediction":
     st.header("Make Prediction")
     
     if st.session_state.model is not None and st.session_state.scaler is not None:
-        st.write("""
-        ### Enter Sonar Readings
-        
-        Input the 60 sonar frequency readings (values between 0.0 and 1.0) to classify the object as a rock or a mine.
-        
-        You can either:
-        1. Enter values manually using the sliders
-        2. Upload a CSV file with a single row of 60 values
-        3. Use a sample from the dataset
-        """)
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+            <h3>Enter Sonar Readings</h3>
+            <p>Input the 60 sonar frequency readings (values between 0.0 and 1.0) to classify the object as a rock or a mine.</p>
+            <p>You can either:</p>
+            <ol>
+                <li>Enter values manually using the sliders</li>
+                <li>Upload a CSV file with a single row of 60 values</li>
+                <li>Use a sample from the dataset</li>
+            </ol>
+        </div>
+        """, unsafe_allow_html=True)
         
         input_method = st.radio("Choose input method:", ["Use Sample", "Manual Input", "Upload CSV"])
         
@@ -647,10 +454,14 @@ elif page == "Make Prediction":
                 
                 # Display the sample class
                 true_class = st.session_state.data.iloc[sample_idx][60]
-                st.write(f"True class of this sample: {'Mine' if true_class == 'M' else 'Rock'}")
+                st.markdown(f"""
+                <div style="background-color: #e9f7fe; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <strong>True class of this sample:</strong> {'Mine' if true_class == 'M' else 'Rock'}
+                </div>
+                """, unsafe_allow_html=True)
                 
                 # Display the sample values
-                fig, ax = plt.figure(figsize=(12, 4)), plt.subplot(111)
+                fig, ax = plt.subplots(figsize=(12, 4))
                 plt.plot(range(60), input_values)
                 plt.title("Sample Sonar Readings")
                 plt.xlabel("Feature Index")
@@ -683,7 +494,7 @@ elif page == "Make Prediction":
                         input_values = prediction_data.iloc[0, :60].values.tolist()
                         
                         # Display the uploaded values
-                        fig, ax = plt.figure(figsize=(12, 4)), plt.subplot(111)
+                        fig, ax = plt.subplots(figsize=(12, 4))
                         plt.plot(range(60), input_values)
                         plt.title("Uploaded Sonar Readings")
                         plt.xlabel("Feature Index")
@@ -694,7 +505,7 @@ elif page == "Make Prediction":
         
         # Make prediction
         if len(input_values) == 60:
-            if st.button("Predict"):
+            if st.button("Predict", key="predict_button"):
                 label, probability = predict_input(st.session_state.model, st.session_state.scaler, input_values)
                 
                 # Display prediction with probability
@@ -706,9 +517,10 @@ elif page == "Make Prediction":
                 
                 with col1:
                     st.subheader("Prediction Result:")
+                    card_class = "mine-card" if label == "Mine" else "rock-card"
                     st.markdown(
-                        f"<div class='prediction-card'>"
-                        f"<h2>{label}</h2>"
+                        f"<div class='prediction-card {card_class}'>"
+                        f"<h2 style='color: {'#dc3545' if label == 'Mine' else '#28a745'}; text-align: center;'>{label}</h2>"
                         f"</div>", unsafe_allow_html=True
                     )
                 
@@ -720,17 +532,17 @@ elif page == "Make Prediction":
                     st.write("Mine:")
                     mine_pct = mine_prob * 100
                     st.progress(mine_prob)
-                    st.write(f"{mine_pct:.2f}%")
+                    st.markdown(f"<div style='text-align: center; font-weight: bold;'>{mine_pct:.2f}%</div>", unsafe_allow_html=True)
                     
                     # Rock probability
                     st.write("Rock:")
                     rock_pct = rock_prob * 100
                     st.progress(rock_prob)
-                    st.write(f"{rock_pct:.2f}%")
+                    st.markdown(f"<div style='text-align: center; font-weight: bold;'>{rock_pct:.2f}%</div>", unsafe_allow_html=True)
                 
                 # Feature visualization
                 st.subheader("Feature Visualization")
-                fig, ax = plt.figure(figsize=(12, 4)), plt.subplot(111)
+                fig, ax = plt.subplots(figsize=(12, 4))
                 plt.plot(range(60), input_values)
                 plt.title(f"Sonar Reading Pattern (Predicted: {label})")
                 plt.xlabel("Feature Index")
@@ -754,10 +566,10 @@ elif page == "Make Prediction":
                     }).sort_values('Absolute', ascending=False)
                     
                     # Display top contributing features
-                    fig, ax = plt.figure(figsize=(12, 8)), plt.subplot(111)
+                    fig, ax = plt.subplots(figsize=(12, 8))
                     top_features = contribution_df.head(15)
                     sns.barplot(x='Contribution', y='Feature', data=top_features, 
-                               palette=['red' if x < 0 else 'green' for x in top_features['Contribution']], ax=ax)
+                               palette=['#dc3545' if x < 0 else '#28a745' for x in top_features['Contribution']], ax=ax)
                     plt.title('Top 15 Features Contributing to Prediction')
                     plt.axvline(x=0, color='black', linestyle='-', alpha=0.3)
                     plt.tight_layout()
@@ -769,8 +581,8 @@ elif page == "Make Prediction":
 # Add footer
 st.markdown("""
 <div class="footer">
-<h3>About</h3>
-<p>This app demonstrates how machine learning can be used for sonar-based rock vs mine classification.</p>
-<p>Built with Streamlit, scikit-learn, and Python.</p>
+    <h4>About</h4>
+    <p>This app demonstrates how machine learning can be used for sonar-based rock vs mine classification.
+    Built with Streamlit, scikit-learn, and Python.</p>
 </div>
 """, unsafe_allow_html=True)
