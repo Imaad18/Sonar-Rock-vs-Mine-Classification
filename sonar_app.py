@@ -15,13 +15,337 @@ st.set_page_config(
     layout="wide"
 )
 
+# Custom CSS for modern styling
+st.markdown("""
+<style>
+    /* Import modern fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Root variables for theming */
+    :root {
+        --primary-color: #6366f1;
+        --secondary-color: #8b5cf6;
+        --accent-color: #06b6d4;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --error-color: #ef4444;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #e2e8f0;
+        --border-color: #e5e7eb;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+    }
+    
+    /* Global styles */
+    .stApp {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    /* Main container */
+    .main .block-container {
+        padding: 2rem 1rem;
+        max-width: 1200px;
+        background: var(--bg-primary);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+        margin: 2rem auto;
+        border: 1px solid var(--border-color);
+    }
+    
+    /* Title styling */
+    h1 {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+    
+    /* Headers */
+    h2, h3 {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+    }
+    
+    h2 {
+        font-size: 1.875rem;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        color: var(--secondary-color);
+    }
+    
+    /* Sidebar styling */
+    .css-1d391kg {
+        background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+        border-right: 1px solid var(--border-color);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .css-1d391kg .stRadio > label {
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+    
+    /* Radio buttons */
+    .stRadio > div {
+        background: var(--bg-secondary);
+        padding: 1rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-color);
+        margin-bottom: 0.5rem;
+        transition: all 0.2s ease;
+    }
+    
+    .stRadio > div:hover {
+        background: var(--bg-primary);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-1px);
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-md);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    }
+    
+    .stButton > button:active {
+        transform: translateY(0);
+    }
+    
+    /* File uploader */
+    .stFileUploader {
+        background: var(--bg-secondary);
+        border: 2px dashed var(--primary-color);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .stFileUploader:hover {
+        background: var(--bg-primary);
+        border-color: var(--secondary-color);
+        transform: scale(1.02);
+    }
+    
+    /* Metrics and info boxes */
+    .stMetric {
+        background: var(--bg-secondary);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    /* Progress bars */
+    .stProgress > div > div > div {
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        border-radius: var(--radius-sm);
+    }
+    
+    /* Sliders */
+    .stSlider > div > div > div {
+        background: var(--bg-secondary);
+        border-radius: var(--radius-md);
+        padding: 0.5rem;
+    }
+    
+    .stSlider > div > div > div > div {
+        color: var(--primary-color);
+    }
+    
+    /* DataFrames */
+    .stDataFrame {
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+    
+    /* Success/Warning/Error messages */
+    .stSuccess {
+        background: linear-gradient(135deg, var(--success-color), #34d399);
+        color: white;
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        border: none;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .stWarning {
+        background: linear-gradient(135deg, var(--warning-color), #fbbf24);
+        color: white;
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        border: none;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .stError {
+        background: linear-gradient(135deg, var(--error-color), #f87171);
+        color: white;
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        border: none;
+        box-shadow: var(--shadow-md);
+    }
+    
+    /* Custom cards */
+    .prediction-card {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 2rem;
+        border-radius: var(--radius-xl);
+        text-align: center;
+        box-shadow: var(--shadow-lg);
+        margin: 1rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .prediction-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .metric-card {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
+        margin: 1rem 0;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
+    }
+    
+    /* Columns */
+    .stColumns {
+        gap: 2rem;
+    }
+    
+    /* Text areas and inputs */
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea {
+        border-radius: var(--radius-md);
+        border: 2px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+    
+    .stTextInput > div > div > input:focus,
+    .stTextArea > div > div > textarea:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    
+    /* Matplotlib figure styling */
+    .stPlotlyChart {
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+        background: var(--bg-primary);
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+    }
+    
+    /* Custom animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .main .block-container {
+            padding: 1rem 0.5rem;
+            margin: 1rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+        }
+        
+        .stColumns {
+            gap: 1rem;
+        }
+    }
+    
+    /* Footer styling */
+    .footer {
+        background: var(--bg-secondary);
+        border-top: 1px solid var(--border-color);
+        padding: 2rem;
+        text-align: center;
+        margin-top: 3rem;
+        border-radius: var(--radius-lg);
+        color: var(--text-secondary);
+    }
+    
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
+
 # Title and description
 st.title("Sonar Rock vs Mine Classification")
 st.markdown("""
+<div class="animate-fade-in">
 This app uses machine learning to classify sonar signals as either a rock (R) or a mine (M).
 The model is trained on the sonar dataset which contains patterns obtained by bouncing sonar signals
 off either rocks or metal cylinders (mines) at various angles and conditions.
-""")
+</div>
+""", unsafe_allow_html=True)
 
 # Function to load data
 @st.cache_data
@@ -383,9 +707,8 @@ elif page == "Make Prediction":
                 with col1:
                     st.subheader("Prediction Result:")
                     st.markdown(
-                        f"<div style='background-color:{'#f8d7da' if label == 'Mine' else '#d4edda'}; "
-                        f"padding:20px; border-radius:10px; text-align:center;'>"
-                        f"<h2 style='color:{'#721c24' if label == 'Mine' else '#155724'};'>{label}</h2>"
+                        f"<div class='prediction-card'>"
+                        f"<h2>{label}</h2>"
                         f"</div>", unsafe_allow_html=True
                     )
                 
@@ -445,8 +768,9 @@ elif page == "Make Prediction":
 
 # Add footer
 st.markdown("""
----
-### About
-This app demonstrates how machine learning can be used for sonar-based rock vs mine classification.
-Built with Streamlit, scikit-learn, and Python.
-""")
+<div class="footer">
+<h3>About</h3>
+<p>This app demonstrates how machine learning can be used for sonar-based rock vs mine classification.</p>
+<p>Built with Streamlit, scikit-learn, and Python.</p>
+</div>
+""", unsafe_allow_html=True)
